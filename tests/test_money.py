@@ -1,5 +1,5 @@
 from __future__ import annotations
-from money.money import Bank, Money, Sum
+from money.money import Bank, Expression, Money, Sum
 
 
 def test_dollar_multiplication():
@@ -58,3 +58,12 @@ def test_reduce_money_different_currency():
 
 def test_identity_rate():
     assert Bank().rate("USD", "USD") == 1
+
+
+def test_mixed_addition():
+    five_dollars: Expression = Money.dollar(5)
+    ten_francs: Expression = Money.franc(10)
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    result = bank.reduce(five_dollars.plus(ten_francs), "USD")
+    assert result == Money.dollar(10)
