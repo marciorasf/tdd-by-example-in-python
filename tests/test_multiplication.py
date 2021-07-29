@@ -3,5 +3,9 @@ from money.dollar import Dollar
 
 def test_multiplication():
     five = Dollar(5)
-    five.times(2)
-    five.amount == 10
+
+    product = five.times(2)
+    assert product.amount == 10
+
+    product = five.times(3)
+    assert product.amount == 15
