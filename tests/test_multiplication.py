@@ -5,12 +5,12 @@ def test_multiplication():
     five = Dollar(5)
 
     product = five.times(2)
-    assert product.amount == 10
+    assert 10 == product.amount
 
     product = five.times(3)
-    assert product.amount == 15
+    assert 15 == product.amount
 
 
 def test_equality():
-    assert Dollar(5).equals(Dollar(5))
-    assert not Dollar(5).equals(Dollar(6))
+    assert Dollar(5) == Dollar(5)
+    assert Dollar(5) != Dollar(6)
