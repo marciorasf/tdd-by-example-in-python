@@ -1,7 +1,7 @@
 from money.money import Money
 
 
-def test_multiplication():
+def test_dollar_multiplication():
     five = Money.dollar(5)
 
     assert Money.dollar(10) == five.times(2)
