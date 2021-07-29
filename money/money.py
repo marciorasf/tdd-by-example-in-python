@@ -3,7 +3,8 @@ from abc import ABC, abstractmethod
 
 
 class Money(ABC):
-    def __init__(self, amount: int) -> None:
+    def __init__(self, amount: int, currency: str) -> None:
+        self.currency = currency
         self._amount: int = amount
 
     def __eq__(self, object: object) -> bool:
@@ -14,11 +15,11 @@ class Money(ABC):
 
     @staticmethod
     def dollar(amount: int) -> Dollar:
-        return Dollar(amount)
+        return Dollar(amount, None)
 
     @staticmethod
     def franc(amount: int) -> Franc:
-        return Franc(amount)
+        return Franc(amount, None)
 
     @abstractmethod
     def times(self, multiplier: int) -> Money:
@@ -26,10 +27,16 @@ class Money(ABC):
 
 
 class Dollar(Money):
+    def __init__(self, amount: int, currency: str) -> None:
+        super().__init__(amount, "USD")
+
     def times(self, multiplier: int) -> Money:
-        return Dollar(self._amount * multiplier)
+        return Money.dollar(self._amount * multiplier)
 
 
 class Franc(Money):
+    def __init__(self, amount: int, currency: str) -> None:
+        super().__init__(amount, "CHF")
+
     def times(self, multiplier: int) -> Money:
-        return Franc(self._amount * multiplier)
+        return Money.franc(self._amount * multiplier)
