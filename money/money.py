@@ -14,22 +14,12 @@ class Money:
         return False
 
     @staticmethod
-    def dollar(amount: int) -> Dollar:
-        return Dollar(amount, None)
+    def dollar(amount: int) -> Money:
+        return Money(amount, "USD")
 
     @staticmethod
-    def franc(amount: int) -> Franc:
-        return Franc(amount, None)
+    def franc(amount: int) -> Money:
+        return Money(amount, "CHF")
 
     def times(self, multiplier: int) -> Money:
         return Money(self._amount * multiplier, self.currency)
-
-
-class Dollar(Money):
-    def __init__(self, amount: int, currency: str) -> None:
-        super().__init__(amount, "USD")
-
-
-class Franc(Money):
-    def __init__(self, amount: int, currency: str) -> None:
-        super().__init__(amount, "CHF")
