@@ -71,8 +71,8 @@ class Money(Expression):
 
 class Bank:
     class Pair:
-        def __init__(self, source: str, to: str) -> None:
-            self._from = source
+        def __init__(self, _from: str, to: str) -> None:
+            self._from = _from
             self._to = to
 
         def __eq__(self, object: object) -> bool:
@@ -87,11 +87,11 @@ class Bank:
     def reduce(self, source: Expression, to: str) -> Money:
         return source.reduce(self, to)
 
-    def add_rate(self, source: str, to: str, rate: int) -> None:
-        self._rates[hash(self.Pair(source, to))] = rate
+    def add_rate(self, _from: str, to: str, rate: int) -> None:
+        self._rates[hash(self.Pair(_from, to))] = rate
 
-    def rate(self, source: str, to: str) -> int:
-        if source == to:
+    def rate(self, _from: str, to: str) -> int:
+        if _from == to:
             return 1
 
-        return self._rates[hash(self.Pair(source, to))]
+        return self._rates[hash(self.Pair(_from, to))]
