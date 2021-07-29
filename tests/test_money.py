@@ -1,5 +1,5 @@
 from __future__ import annotations
-from money.money import Bank, Expression, Money, Sum
+from money.money import Bank, Money, Sum
 
 
 def test_dollar_multiplication():
@@ -61,9 +61,29 @@ def test_identity_rate():
 
 
 def test_mixed_addition():
-    five_dollars: Expression = Money.dollar(5)
-    ten_francs: Expression = Money.franc(10)
+    five_dollars = Money.dollar(5)
+    ten_francs = Money.franc(10)
     bank = Bank()
     bank.add_rate("CHF", "USD", 2)
     result = bank.reduce(five_dollars.plus(ten_francs), "USD")
     assert result == Money.dollar(10)
+
+
+def test_sum_plus_money():
+    five_dollars = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    money_sum = Sum(five_dollars, ten_francs).plus(five_dollars)
+    result = bank.reduce(money_sum, "USD")
+    assert result == Money.dollar(15)
+
+
+def test_sum_times():
+    five_dollars = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    money_sum = Sum(five_dollars, ten_francs).times(2)
+    result = bank.reduce(money_sum, "USD")
+    assert result == Money.dollar(20)
