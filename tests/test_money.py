@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from money.money import Bank, Money, Sum
 
 
@@ -22,9 +23,11 @@ def test_currency():
 
 def test_simple_addition():
     five = Money.dollar(5)
-    money_sum = five.plus(five)
     bank = Bank()
+
+    money_sum = five.plus(five)
     reduced = bank.reduce(money_sum, "USD")
+
     assert reduced == Money.dollar(10)
 
 
@@ -37,22 +40,28 @@ def test_plus_returns_sum():
 
 
 def test_reduce_sum():
-    money_sum = Sum(Money.dollar(3), Money.dollar(4))
     bank = Bank()
+    money_sum = Sum(Money.dollar(3), Money.dollar(4))
+
     result = bank.reduce(money_sum, "USD")
+
     assert result == Money.dollar(7)
 
 
 def test_reduce_money():
     bank = Bank()
+
     result = bank.reduce(Money.dollar(1), "USD")
+
     assert result == Money.dollar(1)
 
 
 def test_reduce_money_different_currency():
     bank = Bank()
     bank.add_rate("CHF", "USD", 2)
+
     result = bank.reduce(Money.franc(2), "USD")
+
     assert result == Money.dollar(1)
 
 
@@ -65,7 +74,9 @@ def test_mixed_addition():
     ten_francs = Money.franc(10)
     bank = Bank()
     bank.add_rate("CHF", "USD", 2)
+
     result = bank.reduce(five_dollars.plus(ten_francs), "USD")
+
     assert result == Money.dollar(10)
 
 
@@ -74,8 +85,10 @@ def test_sum_plus_money():
     ten_francs = Money.franc(10)
     bank = Bank()
     bank.add_rate("CHF", "USD", 2)
+
     money_sum = Sum(five_dollars, ten_francs).plus(five_dollars)
     result = bank.reduce(money_sum, "USD")
+
     assert result == Money.dollar(15)
 
 
@@ -84,6 +97,8 @@ def test_sum_times():
     ten_francs = Money.franc(10)
     bank = Bank()
     bank.add_rate("CHF", "USD", 2)
+
     money_sum = Sum(five_dollars, ten_francs).times(2)
     result = bank.reduce(money_sum, "USD")
+
     assert result == Money.dollar(20)
